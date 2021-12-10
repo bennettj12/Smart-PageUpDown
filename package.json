@@ -10,14 +10,22 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:smart-pgup-pgdown.helloWorld"
+		"onCommand:spd.pageup",
+		"onCommand:spd.pagedown"
+
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
-		"commands": [
+		"keybindings": [
 			{
-				"command": "smart-pgup-pgdown.helloWorld",
-				"title": "Hello World"
+				"command": "spd.pageup",
+				"key": "PageUp",
+				"mac": "PageUp"
+			},
+			{
+				"command": "spd.pagedown",
+				"key": "PageDown",
+				"mac": "PageDown"
 			}
 		]
 	},
