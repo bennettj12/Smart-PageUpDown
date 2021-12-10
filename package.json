@@ -11,11 +11,38 @@
 	],
 	"activationEvents": [
 		"onCommand:spd.pageup",
-		"onCommand:spd.pagedown"
+		"onCommand:spd.pagedown",
+		"onCommand:spd.shiftpagedown",
+		"onCommand:spd.shiftpageup"
 
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
+		"configuration": {
+			"title": "Smart PageUp/PageDown",
+			"properties": {
+				"Page Up/Down.maxPageSize": {
+					"type" :"integer",
+					"default": 15,
+					"description": "Max number of lines for a pageup or pagedown to traverse."
+				},
+				"Page Up/Down.useCurlyBrackets": {
+					"type": "boolean",
+					"default": true,
+					"description": "Set to true if you want curly brackets to be considered when using pageup/pagedown."
+				},
+				"Page Up/Down.useSquareBrackets": {
+					"type": "boolean",
+					"default": false,
+					"description": "Set to true if you want square brackets to be considered when using pageup/pagedown."
+				},
+				"Page Up/Down.useParentheses": {
+					"type": "boolean",
+					"default": false,
+					"description": "Set to true if you want parentheses to be considered when using pageup/pagedown."
+				}
+			}
+		},
 		"keybindings": [
 			{
 				"command": "spd.pageup",
@@ -26,6 +53,16 @@
 				"command": "spd.pagedown",
 				"key": "PageDown",
 				"mac": "PageDown"
+			},
+			{
+				"command": "spd.shiftpagedown",
+				"key": "Shift+PageDown",
+				"mac": "Shift+PageDown"
+			},
+			{
+				"command": "spd.shiftpageup",
+				"key": "Shift+PageUp",
+				"mac": "Shift+PageUp"
 			}
 		]
 	},
