@@ -1,14 +1,27 @@
 {
-  "name": "smart-pgup-pgdown",
-	"displayName": "Smart PgUp/PgDown",
-	"description": "Changes pageup and pagedown buttons to move the pointer depending on the content of code. Can select the current code block.",
-	"version": "0.0.1",
+  "name": "smart-pageup-pagedown",
+	"displayName": "Smart PageUp/PageDown",
+	"description": "Changes pageup and pagedown buttons to move and select with the pointer depending on the context of surrounding code. Has options to navigate based on different types of brackets.",
+	"version": "1.0.0",
 	"engines": {
 		"vscode": "^1.63.0"
 	},
 	"categories": [
+		"Keymaps",
 		"Other"
 	],
+	"keywords": [
+		"Selection",
+		"Navigation",
+		"Cursor",
+		"PageDown",
+		"PageUp"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bennettj12/Smart-PageUpDown.git"
+	},
+	"icon": "images/pageupdown.png",
 	"activationEvents": [
 		"onCommand:spd.pageup",
 		"onCommand:spd.pagedown",
@@ -23,8 +36,8 @@
 			"properties": {
 				"Page Up/Down.maxPageSize": {
 					"type" :"integer",
-					"default": 15,
-					"description": "Max number of lines for a pageup or pagedown to traverse."
+					"default": 75,
+					"description": "Max number of lines for a pageup or pagedown to traverse.\nMay cause slowdowns if set to a large value and used on a large file."
 				},
 				"Page Up/Down.useCurlyBrackets": {
 					"type": "boolean",
