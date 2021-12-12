@@ -6,16 +6,17 @@ Modifies the functionality of `PageUp` and `PageDown` buttons to move and select
 
 Using the `PageDown` or `PageUp` keys will move the cursor based on the contents of the current block of code.  
 
->`Shift + PageUp`/`Shift + PageDown` will select text.  
+
+* #### `Shift + PageUp`/`Shift + PageDown` will select text.  
 ![selecting text](images/selection.gif)
 
->When inside a block, the contents of the block will be selected. If there are blocks of code contained inside, they will be selected in order.   
+* #### When inside a block, the contents of the block will be selected. If there are blocks of code contained inside, they will be selected in order.   
 ![selecting in a code block](images/inner.gif)
 
->The cursor escapes a block of code when `PageUp`/`PageDown` is pressed again.  
+* #### The cursor escapes a block of code when `PageUp`/`PageDown` is pressed again.  
 ![escaping a block](images/escape.gif)
 
->The cursor will jump between blocks at its current depth.  
+* #### The cursor will jump between blocks at its current depth.  
 ![jumping between blocks](images/samedepth.gif)
 
 ## Extension Settings
