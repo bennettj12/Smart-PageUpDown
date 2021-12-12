@@ -29,7 +29,10 @@ export function activate(context: vscode.ExtensionContext) {
 		pageup: (editor: vscode.TextEditor) => runIfSelection(editor, updateSelection, pages.pageUp),
 		pagedown: (editor: vscode.TextEditor) => runIfSelection(editor, updateSelection, pages.pageDown),
 		shiftpageup: (editor : vscode.TextEditor) => runIfSelection(editor, updateSelectionAnchor, pages.pageUp),
-		shiftpagedown: (editor : vscode.TextEditor) => runIfSelection(editor, updateSelectionAnchor, pages.pageDown)
+		shiftpagedown: (editor : vscode.TextEditor) => runIfSelection(editor, updateSelectionAnchor, pages.pageDown),
+		opensettings: () => {
+			vscode.commands.executeCommand( 'workbench.action.openSettings', 'Smart PageUp/PageDown' );
+		}
 	};
 
 	for(let [name, func] of Object.entries(COMMANDS)){

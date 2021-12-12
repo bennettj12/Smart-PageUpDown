@@ -41,7 +41,8 @@
     "onCommand:spd.pageup",
     "onCommand:spd.pagedown",
     "onCommand:spd.shiftpagedown",
-    "onCommand:spd.shiftpageup"
+    "onCommand:spd.shiftpageup",
+	"onCommand:spd.opensettings"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -70,6 +71,12 @@
         }
       }
     },
+	"commands":[
+		{
+			"command": "spd.opensettings",
+			"title": "Smart Pageup/Pagedown: Open extension settings"
+		}
+	],
     "keybindings": [
       {
         "command": "spd.pageup",
