@@ -31,7 +31,7 @@
     "type": "git",
     "url": "https://github.com/bennettj12/Smart-PageUpDown.git"
   },
-  "license": "CC-BY-NC-2.5",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/bennettj12/Smart-PageUpDown/issues",
     "email": "bennett@bennettrj.com"
