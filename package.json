@@ -18,14 +18,14 @@
 	],
 	"keywords": [
 		"Selection",
-		"Navigation",
+		"smart page",
 		"Cursor",
 		"PageDown",
 		"PageUp"
 	],
 	"galleryBanner": {
 		"color": "#050e2d",
-		"theme": "light"
+		"theme": "dark"
 	},
 	"repository": {
 		"type": "git",
