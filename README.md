@@ -32,3 +32,7 @@ Using the `PageDown` or `PageUp` keys will move the cursor based on the contents
 ### 1.0.0
 
 Initial release of extension.
+
+### 1.1.0
+
+Added command pallette command to open extension's settings.
