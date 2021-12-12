@@ -1,124 +1,123 @@
 {
   "name": "smart-pageup-pagedown",
-	"displayName": "Smart PageUp/PageDown",
-	"description": "Changes pageup and pagedown buttons to move and select with the pointer depending on the context of surrounding code. Has options to navigate based on different types of brackets.",
-	"version": "1.0.0",
-	"author": {
-		"name": "Bennett Johnson",
-		"url": "https://bennettrj.com",
-		"email": "bennett@bennettrj.com"
-	},
-	"engines": {
-		"vscode": "^1.63.0"
-	},
-	"publisher": "BennettJohnson",
-	"categories": [
-		"Keymaps",
-		"Other"
-	],
-	"keywords": [
-		"Selection",
-		"smart page",
-		"Cursor",
-		"PageDown",
-		"PageUp"
-	],
-	"galleryBanner": {
-		"color": "#050e2d",
-		"theme": "dark"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/bennettj12/Smart-PageUpDown.git"
-	},
-	"license": "CC-BY-NC-2.5",
-	"bugs": {
-		"url": "https://github.com/bennettj12/Smart-PageUpDown/issues",
-		"email": "bennett@bennettrj.com"
-	},
-	"icon": "images/pageupdown.png",
-	"activationEvents": [
-		"onCommand:spd.pageup",
-		"onCommand:spd.pagedown",
-		"onCommand:spd.shiftpagedown",
-		"onCommand:spd.shiftpageup"
-
-	],
-	"main": "./dist/extension.js",
-	"contributes": {
-		"configuration": {
-			"title": "Smart PageUp/PageDown",
-			"properties": {
-				"Page Up/Down.maxPageSize": {
-					"type" :"integer",
-					"default": 75,
-					"description": "Max number of lines for a pageup or pagedown to traverse.\nMay cause slowdowns if set to a large value and used on a large file."
-				},
-				"Page Up/Down.useCurlyBrackets": {
-					"type": "boolean",
-					"default": true,
-					"description": "Set to true if you want curly brackets to be considered when using pageup/pagedown."
-				},
-				"Page Up/Down.useSquareBrackets": {
-					"type": "boolean",
-					"default": false,
-					"description": "Set to true if you want square brackets to be considered when using pageup/pagedown."
-				},
-				"Page Up/Down.useParentheses": {
-					"type": "boolean",
-					"default": false,
-					"description": "Set to true if you want parentheses to be considered when using pageup/pagedown."
-				}
-			}
-		},
-		"keybindings": [
-			{
-				"command": "spd.pageup",
-				"key": "PageUp",
-				"mac": "PageUp"
-			},
-			{
-				"command": "spd.pagedown",
-				"key": "PageDown",
-				"mac": "PageDown"
-			},
-			{
-				"command": "spd.shiftpagedown",
-				"key": "Shift+PageDown",
-				"mac": "Shift+PageDown"
-			},
-			{
-				"command": "spd.shiftpageup",
-				"key": "Shift+PageUp",
-				"mac": "Shift+PageUp"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "npm run package",
-		"compile": "webpack",
-		"watch": "webpack --watch",
-		"package": "webpack --mode production --devtool hidden-source-map",
-		"compile-tests": "tsc -p . --outDir out",
-		"watch-tests": "tsc -p . -w --outDir out",
-		"pretest": "npm run compile-tests && npm run compile && npm run lint",
-		"lint": "eslint src --ext ts",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/vscode": "^1.63.0",
-		"@types/glob": "^7.1.4",
-		"@types/mocha": "^9.0.0",
-		"@types/node": "14.x",
-		"@typescript-eslint/eslint-plugin": "^5.1.0",
-		"@typescript-eslint/parser": "^5.1.0",
-		"eslint": "^8.1.0",
-		"glob": "^7.1.7",
-		"mocha": "^9.1.3",
-		"typescript": "^4.4.4",
-		"ts-loader": "^9.2.5",
-		"webpack": "^5.52.1",
-		"webpack-cli": "^4.8.0",
-		"@vscode/test-electron": "^1.6.2"
-	}
+  "displayName": "Smart PageUp/PageDown",
+  "description": "Changes pageup and pagedown buttons to move and select with the pointer depending on the context of surrounding code. Has options to navigate based on different types of brackets.",
+  "version": "1.0.1",
+  "author": {
+    "name": "Bennett Johnson",
+    "url": "https://bennettrj.com",
+    "email": "bennett@bennettrj.com"
+  },
+  "engines": {
+    "vscode": "^1.63.0"
+  },
+  "publisher": "BennettJohnson",
+  "categories": [
+    "Keymaps",
+    "Other"
+  ],
+  "keywords": [
+    "Selection",
+    "smart page",
+    "Cursor",
+    "PageDown",
+    "PageUp"
+  ],
+  "galleryBanner": {
+    "color": "#050e2d",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bennettj12/Smart-PageUpDown.git"
+  },
+  "license": "CC-BY-NC-2.5",
+  "bugs": {
+    "url": "https://github.com/bennettj12/Smart-PageUpDown/issues",
+    "email": "bennett@bennettrj.com"
+  },
+  "icon": "images/pageupdown.png",
+  "activationEvents": [
+    "onCommand:spd.pageup",
+    "onCommand:spd.pagedown",
+    "onCommand:spd.shiftpagedown",
+    "onCommand:spd.shiftpageup"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Smart PageUp/PageDown",
+      "properties": {
+        "Page Up/Down.maxPageSize": {
+          "type": "integer",
+          "default": 75,
+          "description": "Max number of lines for a pageup or pagedown to traverse.\nMay cause slowdowns if set to a large value and used on a large file."
+        },
+        "Page Up/Down.useCurlyBrackets": {
+          "type": "boolean",
+          "default": true,
+          "description": "Set to true if you want curly brackets to be considered when using pageup/pagedown."
+        },
+        "Page Up/Down.useSquareBrackets": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to true if you want square brackets to be considered when using pageup/pagedown."
+        },
+        "Page Up/Down.useParentheses": {
+          "type": "boolean",
+          "default": false,
+          "description": "Set to true if you want parentheses to be considered when using pageup/pagedown."
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "spd.pageup",
+        "key": "PageUp",
+        "mac": "PageUp"
+      },
+      {
+        "command": "spd.pagedown",
+        "key": "PageDown",
+        "mac": "PageDown"
+      },
+      {
+        "command": "spd.shiftpagedown",
+        "key": "Shift+PageDown",
+        "mac": "Shift+PageDown"
+      },
+      {
+        "command": "spd.shiftpageup",
+        "key": "Shift+PageUp",
+        "mac": "Shift+PageUp"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.63.0",
+    "@types/glob": "^7.1.4",
+    "@types/mocha": "^9.0.0",
+    "@types/node": "14.x",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "eslint": "^8.1.0",
+    "glob": "^7.1.7",
+    "mocha": "^9.1.3",
+    "typescript": "^4.4.4",
+    "ts-loader": "^9.2.5",
+    "webpack": "^5.52.1",
+    "webpack-cli": "^4.8.0",
+    "@vscode/test-electron": "^1.6.2"
+  }
 }
