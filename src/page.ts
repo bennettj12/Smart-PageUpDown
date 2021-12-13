@@ -1,5 +1,9 @@
 import * as vscode from 'vscode';
 
+const nonFreeFormLanguages = [
+    `python`,
+]
+
 var MAX_LINES: number;
 var OPENERS: string[];
 var CLOSERS: string[];
@@ -23,6 +27,9 @@ export function updateConfig(){
     }
 }
 export function pageDown(doc: vscode.TextDocument, position: vscode.Position): vscode.Position{
+    if(nonFreeFormLanguages.includes(doc.languageId)){
+        return pageDownNonFreeform(doc, position);
+    } 
     let text = doc.getText(new vscode.Range(position, new vscode.Position(position.line + MAX_LINES, 0)));
     let lines: string[] = text.split(/\r?\n/);
     if(!OPENERS.length){
@@ -69,6 +76,9 @@ export function pageDown(doc: vscode.TextDocument, position: vscode.Position): v
 }
 
 export function pageUp(doc: vscode.TextDocument, position: vscode.Position): vscode.Position{
+    if(nonFreeFormLanguages.includes(doc.languageId)){
+        return pageUpNonFreeform(doc, position);
+    }
     if(!OPENERS.length){
         return new vscode.Position(position.line - MAX_LINES, 0);
     }
@@ -116,4 +126,69 @@ export function pageUp(doc: vscode.TextDocument, position: vscode.Position): vsc
    
     return new vscode.Position(Math.max(position.line - MAX_LINES, 0), 0);
 
+}
+
+export function pageUpNonFreeform(doc: vscode.TextDocument, position: vscode.Position): vscode.Position {
+    let text = doc.getText(new vscode.Range(
+        new vscode.Position(position.line, 0), 
+        new vscode.Position(Math.min(position.line + MAX_LINES,0), 0)));   
+
+        let lines = text.split(/\r?\n/)
+
+    return new vscode.Position(Math.max(position.line - MAX_LINES, 0), 0);
+}
+export function pageDownNonFreeform(doc: vscode.TextDocument, position: vscode.Position): vscode.Position{
+    // current line from the beginning.
+    let text = doc.getText(new vscode.Range(
+        new vscode.Position(position.line, 0), 
+        new vscode.Position(position.line + MAX_LINES, 0)));
+    let lines = text.split(/\r?\n/);
+
+    let startingDepth: number = getLineDepth(lines[0]); 
+    let innerDepthReached: boolean = false;
+    //for each line
+    for(let line = 0; line < lines.length; line++){
+        let thisLine = lines[line];
+        let depth = getLineDepth(thisLine);
+        if(depth > startingDepth){
+            innerDepthReached = true;
+        }
+        if(depth < startingDepth || (innerDepthReached && depth === startingDepth)){
+            if(isWhitespace(thisLine)){
+                continue;
+            }
+            // backtrack to last line that is not whitespace
+            let cLine = line - 1;
+            thisLine = lines[cLine];
+            while(isWhitespace(thisLine)){
+                cLine--;
+                thisLine = lines[cLine];
+            }
+            return new vscode.Position(position.line + cLine + 1,0);
+        }
+    }
+    return new vscode.Position(Math.min(position.line + MAX_LINES, position.line + lines.length - 1), 0);
+}
+
+function getLineDepth(line: string): number{
+    let depth = 0;
+    for(let i = 0; i < line.length; i++){
+        if(line[i] === ' '){
+            depth++;
+        } else {
+            break;
+        }
+    }
+    return depth;
+}
+// this method detects if a line contains only whitespace
+// comments are considered to be whitespace
+function isWhitespace(line: string): boolean{
+    let whitespace = /^\s*$/;
+    return whitespace.test(line) || line.length === 0 || isComment(line);
+}
+// this method detects if a line is a comment
+function isComment(line: string): boolean{
+    let comment = /^\s*#/;
+    return comment.test(line);
 }

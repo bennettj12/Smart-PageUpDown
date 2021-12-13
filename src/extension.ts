@@ -2,15 +2,22 @@ import * as vscode from 'vscode';
 import * as pages from './page';
 
 export function activate(context: vscode.ExtensionContext) {
-	// prep config
+
+	// update config
 	pages.updateConfig();
 	//listen for changes to settings.
 	context.subscriptions.push(vscode.workspace.onDidChangeConfiguration(e => {
 		pages.updateConfig();
 	}));
 
-	type SelectFunc = (editor: vscode.TextEditor, position: vscode.Position) => void;
-	type PageFunc = (document: vscode.TextDocument, position: vscode.Position) => vscode.Position;
+	type SelectFunc = (
+		editor: vscode.TextEditor,
+		position: vscode.Position
+		) => void;
+	type PageFunc = (
+		document: vscode.TextDocument, 
+		position: vscode.Position, 
+		) => vscode.Position;
 
 	const updateSelection: SelectFunc = (editor: vscode.TextEditor, position: vscode.Position) => {
 		editor.revealRange(new vscode.Range(position,position));
@@ -30,9 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
 		pagedown: (editor: vscode.TextEditor) => runIfSelection(editor, updateSelection, pages.pageDown),
 		shiftpageup: (editor : vscode.TextEditor) => runIfSelection(editor, updateSelectionAnchor, pages.pageUp),
 		shiftpagedown: (editor : vscode.TextEditor) => runIfSelection(editor, updateSelectionAnchor, pages.pageDown),
-		opensettings: () => {
-			vscode.commands.executeCommand( 'workbench.action.openSettings', 'Smart PageUp/PageDown' );
-		}
+		opensettings: () => vscode.commands.executeCommand( 'workbench.action.openSettings', 'Smart PageUp/PageDown'),
 	};
 
 	for(let [name, func] of Object.entries(COMMANDS)){
