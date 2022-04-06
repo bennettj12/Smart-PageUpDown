@@ -1,3 +1,4 @@
+import { type } from 'os';
 import * as vscode from 'vscode';
 
 const nonFreeFormLanguages = [
@@ -36,40 +37,39 @@ export function pageDown(doc: vscode.TextDocument, position: vscode.Position): v
         return new vscode.Position(Math.min(position.line + MAX_LINES, position.line + lines.length - 1), 0);
     }
     let count= 0;
-    let bracketType;
+    let bracketType: {opener: string, closer: string} | undefined;
 
     for(let line = 0; line < lines.length; line++){
         let currentLine = lines[line];
-        for(let index = 0; index < currentLine.length; index++){
-            let char = currentLine[index];
-
-            if(bracketType === undefined){
-                if(OPENERS.indexOf(char) !== -1){
-                    let choice = OPENERS.indexOf(char);
-                    bracketType = {
-                        opener: char,
-                        closer: CLOSERS[choice]
-                    };
-                } else if (CLOSERS.indexOf(char) !== -1){
+        if(bracketType === undefined){
+            let potentialBracket = getInitialBracket(currentLine);
+            if(potentialBracket.index >= 0){
+                bracketType = potentialBracket.bracket;
+                if(potentialBracket.closed === true){
                     if(line <= 1){
-                        return new vscode.Position(position.line + line, position.character + index + 1);
+                        console.log("closed bracket at start of file");
+                        return new vscode.Position(position.line + line, position.character + potentialBracket.index + 1);
                     } else {
+                        console.log("closed bracket found on line " + (line + 1) + " but not on line 1");
                         return new vscode.Position(position.line + line - 1, lines[line - 1].length);
                     }
                 }
             } else {
-                if(char === bracketType.opener){
-                    count++;
-                } else if (char === bracketType.closer) {
-                    count--;
-                    if(count < 0){
-                        if(line === 0){
-                            return new vscode.Position(position.line + line, position.character + index + 1);
-                        }
-                        return new vscode.Position(position.line + line, index + 1);
-                    }
-                }
+                bracketType = undefined;
             }
+        } else {
+            let bracketData = getLineBracketCount(count, currentLine, bracketType.opener, bracketType.closer);
+            if(bracketData.index >= 0){
+                if(line === 0){
+                    console.log("bracket found on line 1");
+                    return new vscode.Position(position.line + line, position.character + bracketData.index + 1);
+                }
+                console.log("bracket found on line " + (line + 1));
+                return new vscode.Position(position.line + line, bracketData.index + 1);
+            } else {
+                count = bracketData.count;
+            }
+            
         }
     }
     return new vscode.Position(Math.min(position.line + MAX_LINES, position.line + lines.length - 1), 0);
@@ -169,7 +169,63 @@ export function pageDownNonFreeform(doc: vscode.TextDocument, position: vscode.P
     }
     return new vscode.Position(Math.min(position.line + MAX_LINES, position.line + lines.length - 1), 0);
 }
+// searches a line for opening or closing brackets, returns the type of bracket found, or none
+function getInitialBracket(line: string): {bracket?: any, index: number, closed: boolean} {
+    for(let i = 0; i < line.length; i++){
+        if(OPENERS.indexOf(line[i]) >= 0){
+            return {
+                index: i,
+                bracket: {
+                    opener: line[i],
+                    closer: CLOSERS[OPENERS.indexOf(line[i])]
+                },
+                closed: false
+            };
+        } else if (CLOSERS.indexOf(line[i]) >= 0){
+            return {
+                index: i,
+                bracket: {
+                    opener: OPENERS[CLOSERS.indexOf(line[i])],
+                    closer: line[i]
+                },
+                closed: true
+            };
+        }
 
+    }
+    return {
+        index: -1,
+        bracket: undefined,
+        closed: false
+    };
+}
+
+// gets the number of brackets in a line, openers and closers cancel each other out
+function getLineBracketCount(count: number, line: string, opener: string, closer: string): {index: number, count: number} {
+    let data = {
+        index: -1,
+        count: count
+    }
+    let individualLineCount = 0;
+    for(let i = 0; i < line.length; i++){
+        let char = line[i];
+        if(opener === char){
+            count++;
+            individualLineCount++;
+        } else if (closer === char){
+            count--;
+            individualLineCount--;
+        }
+        if(count === 0 && individualLineCount === 0){
+            data.index = i;
+            data.count = count;
+            return data;
+        }
+
+    }
+    data.count = count;
+    return data;
+}
 function getLineDepth(line: string): number{
     let depth = 0;
     for(let i = 0; i < line.length; i++){
